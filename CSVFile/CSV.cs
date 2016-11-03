@@ -192,9 +192,8 @@ namespace CSVFile
             message.Attachments.Add(a);
 
             // Send the email
-            using (System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(smtp_host)) {
-                smtp.Send(message);
-            }
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(smtp_host);
+            smtp.Send(message);
         }
 
         /// <summary>
