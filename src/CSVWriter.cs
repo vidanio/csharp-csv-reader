@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-#if !PORTABLE
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
 using System.Data;
 #endif
 using System.Reflection;
@@ -40,7 +40,7 @@ namespace CSVFile
             _delimiter = delim;
             _text_qualifier = qual;
         }
-#if !PORTABLE
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
         /// <summary>
         /// Initialize a new CSV file structure to write data to disk
         /// </summary>
@@ -66,7 +66,7 @@ namespace CSVFile
 #endregion
 
 #region Data Table Functions (not available in dot-net-portable mode)
-#if !PORTABLE
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
         /// <summary>
         /// Write the data table to a stream in CSV format
         /// </summary>
@@ -106,7 +106,7 @@ namespace CSVFile
         {
             // Extract information about the type we're writing to disk
             Type list_type = typeof(T);
-#if PORTABLE40
+#if PORTABLE || PORTABLE40 || DOTNETCORE
             var filist = new List<FieldInfo>(list_type.GetTypeInfo().DeclaredFields);
             var pilist = new List<PropertyInfo>(list_type.GetTypeInfo().DeclaredProperties);
 #else
@@ -166,7 +166,7 @@ namespace CSVFile
         public void Dispose()
         {
             _outstream.Flush();
-#if !PORTABLE
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
             _outstream.Close();
 #endif
             _outstream.Dispose();

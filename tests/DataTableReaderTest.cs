@@ -7,14 +7,16 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
 using System.Data;
+#endif
 using CSVFile;
 using System.IO;
+using NUnit.Framework;
 
 namespace CSVTestSuite
 {
-    [TestClass]
+    [TestFixture]
     public class DataTableReaderTest
     {
         const string source = "Name,Title,Phone\n" +
@@ -30,7 +32,7 @@ namespace CSVTestSuite
             "Dr. Kelso,Chief of Medicine,x100";
 
 #if !PORTABLE
-        [TestMethod]
+        [Test]
         public void TestBasicDataTable()
         {
             DataTable dt = CSV.LoadString(source, true, false);
@@ -50,7 +52,7 @@ namespace CSVTestSuite
             Assert.AreEqual(dt.Rows[3].ItemArray[2], "x100");
         }
 
-        [TestMethod]
+        [Test]
         public void TestDataTableWithEmbeddedNewlines()
         {
             DataTable dt = CSV.LoadString(source_embedded_newlines, true, false);
@@ -72,7 +74,7 @@ namespace CSVTestSuite
 #endif
 
 #if PORTABLE
-        [TestMethod]
+        [Test]
         public void TestBasicDataTable()
         {
             var list = CSV.LoadString(source, true, false);
@@ -98,11 +100,9 @@ namespace CSVTestSuite
             Assert.AreEqual(list[4][2], "x100");
         }
 
-        [TestMethod]
+        [Test]
         public void TestDataTableWithEmbeddedNewlines()
         {
-
-
             var list = CSV.LoadString(source_embedded_newlines, true, false);
 
             // Equivalent of "columns"
@@ -125,7 +125,5 @@ namespace CSVTestSuite
             Assert.AreEqual(list[4][2], "x100");
         }
 #endif
-
-
     }
 }

@@ -39,9 +39,6 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.cs">
-      <Link>AssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="CSV.cs" />
     <Compile Include="CSVReader.cs" />
     <Compile Include="CSVWriter.cs" />

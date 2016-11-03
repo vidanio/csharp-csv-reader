@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-#if (!PORTABLE)
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
 using System.Data;
 #endif
 
@@ -138,7 +138,7 @@ namespace CSVFile
         #endregion
 
         #region DataTable related functions (not available on dot-net-portable)
-#if !PORTABLE
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
         /// <summary>
         /// Read in a single CSV file into a datatable in memory
         /// </summary>
@@ -313,7 +313,7 @@ namespace CSVFile
         #endregion
 
         #region FileStream related functions (not available on dot-net-portable)
-#if !PORTABLE
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
         /// <summary>
         /// Serialize an object array to a stream in CSV format
         /// </summary>
@@ -398,7 +398,7 @@ namespace CSVFile
         #endregion
 
         #region Minimal portable functions
-#if PORTABLE
+#if PORTABLE || PORTABLE40 || DOTNETCORE
         /// <summary>
         /// Convert a CSV file (in string form) into a list of string arrays 
         /// </summary>
@@ -438,11 +438,7 @@ namespace CSVFile
                     if (s.Length > 0) {
 
                         // Does this string contain any risky characters?  Risky is defined as delim, qual, or newline
-#if (DOTNET20 || DOTNET35 || DOTNET40 || DOTNET45 || PORTABLE)
                         if (force_qualifiers || (s.IndexOf(delimiter) >= 0) || (s.IndexOf(qualifier) >= 0) || s.Contains(Environment.NewLine)) {
-#else
-                        if (force_qualifiers || s.Contains(delimiter) || s.Contains(qualifier) || s.Contains(Environment.NewLine)) {
-#endif
                             sb.Append(qualifier);
 
                             // Double up any qualifiers that may occur
@@ -489,7 +485,7 @@ namespace CSVFile
             }
         }
 
-#if !PORTABLE
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
         /// <summary>
         /// Read in a single CSV file as an array of objects
         /// </summary>
@@ -511,7 +507,7 @@ namespace CSVFile
         #endregion
 
         #region Chopping a CSV file into chunks
-#if !PORTABLE
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
         /// <summary>
         /// Take a CSV file and chop it into multiple chunks of a specified maximum size.
         /// </summary>

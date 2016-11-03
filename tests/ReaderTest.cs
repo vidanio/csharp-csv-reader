@@ -7,16 +7,16 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CSVFile;
 using System.IO;
+using NUnit.Framework;
 
 namespace CSVTestSuite
 {
-    [TestClass]
+    [TestFixture]
     public class ReaderTest
     {
-        [TestMethod]
+        [Test]
         public void TestBasicReader()
         {
             string source = "Name,Title,Phone\n" +
@@ -26,7 +26,7 @@ namespace CSVTestSuite
                 "Dr. Kelso,Chief of Medicine,x100";
 
             // Convert into stream
-            byte[] byteArray = Encoding.ASCII.GetBytes(source);
+            byte[] byteArray = Encoding.UTF8.GetBytes(source);
             MemoryStream stream = new MemoryStream(byteArray);
             using (StreamReader sr = new StreamReader(stream)) {
                 using (CSVReader cr = new CSVReader(sr)) {
@@ -59,7 +59,7 @@ namespace CSVTestSuite
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestAlternateDelimiterQualifiers()
         {
             string source = "Name\tTitle\tPhone\n" +
@@ -69,7 +69,7 @@ namespace CSVTestSuite
                 "Dr. Kelso\tChief of Medicine\tx100";
 
             // Convert into stream
-            byte[] byteArray = Encoding.ASCII.GetBytes(source);
+            byte[] byteArray = Encoding.UTF8.GetBytes(source);
             MemoryStream stream = new MemoryStream(byteArray);
             using (StreamReader sr = new StreamReader(stream)) {
                 using (CSVReader cr = new CSVReader(sr, '\t', '\'')) {

@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-#if !PORTABLE
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
 using System.Data;
 #endif
 using System.Reflection;
@@ -55,7 +55,7 @@ namespace CSVFile
             }
         }
 
-#if !PORTABLE
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
         /// <summary>
         /// Initialize a new CSV file structure to write to disk
         /// </summary>
@@ -120,7 +120,7 @@ namespace CSVFile
         #endregion
 
         #region Read a file into a data table
-#if !PORTABLE
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
         /// <summary>
         /// Read this file into a data table in memory
         /// </summary>
@@ -194,7 +194,7 @@ namespace CSVFile
         /// </summary>
         public void Dispose()
         {
-#if !PORTABLE
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
             _instream.Close();
 #endif
             _instream.Dispose();
@@ -202,7 +202,7 @@ namespace CSVFile
         #endregion
 
 #region Deserialization
-#if !PORTABLE
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
         /// <summary>
         /// Deserialize a CSV file into a list of typed objects
         /// </summary>

@@ -7,18 +7,20 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using CSVFile;
+using NUnit.Framework;
+#if !PORTABLE && !PORTABLE40 && !DOTNETCORE
 using System.Data;
+#endif
 
 namespace CSVTestSuite
 {
-    [TestClass]
+    [TestFixture]
     public class ChopTest
     {
 #if !PORTABLE
-        [TestMethod]
+        [Test]
         public void TestChoppingFiles()
         {
             string source = @"timestamp,TestString,SetComment,PropertyString,IntField,IntProperty
@@ -64,7 +66,7 @@ namespace CSVTestSuite
             File.Delete(sourcefile);
         }
 
-        [TestMethod]
+        [Test]
         public void LargeChopTest()
         {
             string[] array_first = new string[] { "first", "two", "three", "four, five" };
