@@ -1,5 +1,5 @@
 @echo off
 pushd .
 cd src
-..\..\nuget pack csvfile.nuspec
+..\nuget pack csvfile.nuspec
 popd

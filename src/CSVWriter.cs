@@ -107,7 +107,13 @@ namespace CSVFile
             // Extract information about the type we're writing to disk
             Type list_type = typeof(T);
 #if PORTABLE || PORTABLE40 || DOTNETCORE
-            var filist = new List<FieldInfo>(list_type.GetTypeInfo().DeclaredFields);
+            // Eliminate backing fields from the field list; only show public fields
+            var filist = new List<FieldInfo>();
+            foreach (var fi in list_type.GetTypeInfo().DeclaredFields) {
+                if (fi.IsPublic) {
+                    filist.Add(fi);
+                }
+            }
             var pilist = new List<PropertyInfo>(list_type.GetTypeInfo().DeclaredProperties);
 #else
             var filist = list_type.GetFields();
