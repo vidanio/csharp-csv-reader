@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -48,7 +48,12 @@
     <Compile Include="..\..\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Class1.cs" />
+    <Compile Include="BasicParseTests.cs" />
+    <Compile Include="ChopTest.cs" />
+    <Compile Include="DataTableReaderTest.cs" />
+    <Compile Include="ReaderTest.cs" />
+    <Compile Include="SerializationTest.cs" />
+    <Compile Include="WriterTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

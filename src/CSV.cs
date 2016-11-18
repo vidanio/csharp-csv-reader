@@ -137,7 +137,7 @@ namespace CSVFile
         }
         #endregion
 
-        #region DataTable related functions (not available on dot-net-portable)
+#region DataTable related functions (not available on dot-net-portable)
 #if !PORTABLE
         /// <summary>
         /// Read in a single CSV file into a datatable in memory
@@ -282,7 +282,7 @@ namespace CSVFile
                 cw.Write(dt, save_column_names);
             }
         }
-        
+
         /// <summary>
         /// Write a DataTable to a string in CSV format
         /// </summary>
@@ -310,9 +310,9 @@ namespace CSVFile
             }
         }
 #endif
-        #endregion
+#endregion
 
-        #region FileStream related functions (not available on dot-net-portable)
+#region FileStream related functions (not available on dot-net-portable)
 #if !PORTABLE
         /// <summary>
         /// Serialize an object array to a stream in CSV format
@@ -351,6 +351,7 @@ namespace CSVFile
                 WriteToStream<T>(list, sw, save_column_names, delim, qual);
             }
         }
+#endif
 
         /// <summary>
         /// Serialize an object array to a string in CSV format
@@ -390,14 +391,22 @@ namespace CSVFile
         /// <param name="delim">The CSV field delimiter character.</param>
         /// <param name="qual">The CSV text qualifier character.</param>
         /// <returns>An array of objects that were retrieved from the CSV file.</returns>
+#if PORTABLE
+        public static List<T> LoadArray<T>(Stream stream, bool ignore_dimension_errors = true, bool ignore_bad_columns = true, bool ignore_type_conversion_errors = true, char delim = CSV.DEFAULT_DELIMITER, char qual = CSV.DEFAULT_QUALIFIER) where T : class, new()
+        {
+            using (var sr = new StreamReader(stream)) {
+                return LoadArray<T>(sr, ignore_dimension_errors, ignore_bad_columns, ignore_type_conversion_errors, delim, qual);
+            }
+        }
+#else
         public static List<T> LoadArray<T>(string filename, bool ignore_dimension_errors = true, bool ignore_bad_columns = true, bool ignore_type_conversion_errors = true, char delim = CSV.DEFAULT_DELIMITER, char qual = CSV.DEFAULT_QUALIFIER) where T : class, new()
         {
             return LoadArray<T>(new StreamReader(filename), ignore_dimension_errors, ignore_bad_columns, ignore_type_conversion_errors, delim, qual);
         }
 #endif
-        #endregion
+#endregion
 
-        #region Minimal portable functions
+#region Minimal portable functions
 #if PORTABLE
         /// <summary>
         /// Convert a CSV file (in string form) into a list of string arrays 
@@ -419,9 +428,9 @@ namespace CSVFile
             return results;
         }
 #endif
-        #endregion
+#endregion
 
-        #region Output Functions
+#region Output Functions
         /// <summary>
         /// Output a single field value as appropriate
         /// </summary>
@@ -464,7 +473,7 @@ namespace CSVFile
         }
 #endregion
 
-        #region Shortcuts for static read calls
+#region Shortcuts for static read calls
         /// <summary>
         /// Saves an array of objects to a CSV string in memory.
         /// </summary>
@@ -489,7 +498,6 @@ namespace CSVFile
             }
         }
 
-#if !PORTABLE
         /// <summary>
         /// Read in a single CSV file as an array of objects
         /// </summary>
@@ -507,10 +515,9 @@ namespace CSVFile
                 return cr.Deserialize<T>(ignore_dimension_errors, ignore_bad_columns, ignore_type_conversion_errors);
             }
         }
-#endif
-        #endregion
+#endregion
 
-        #region Chopping a CSV file into chunks
+#region Chopping a CSV file into chunks
 #if !PORTABLE
         /// <summary>
         /// Take a CSV file and chop it into multiple chunks of a specified maximum size.
@@ -565,6 +572,6 @@ namespace CSVFile
             return file_id;
         }
 #endif
-        #endregion
+#endregion
     }
 }

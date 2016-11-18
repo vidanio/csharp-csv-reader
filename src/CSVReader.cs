@@ -201,8 +201,7 @@ namespace CSVFile
         }
         #endregion
 
-#region Deserialization
-#if !PORTABLE
+        #region Deserialization
         /// <summary>
         /// Deserialize a CSV file into a list of typed objects
         /// </summary>
@@ -220,7 +219,6 @@ namespace CSVFile
 
             // Determine how to handle each column in the file - check properties, fields, and methods
             Type[] column_types = new Type[num_columns];
-            TypeConverter[] column_convert = new TypeConverter[num_columns];
             PropertyInfo[] prop_handlers = new PropertyInfo[num_columns];
             FieldInfo[] field_handlers = new FieldInfo[num_columns];
             MethodInfo[] method_handlers = new MethodInfo[num_columns];
@@ -254,14 +252,6 @@ namespace CSVFile
                 } else {
                     column_types[i] = prop_handlers[i].PropertyType;
                 }
-
-                // Retrieve a converter
-                if (column_types[i] != null) {
-                    column_convert[i] = TypeDescriptor.GetConverter(column_types[i]);
-                    if (column_convert[i] == null) {
-                        throw new Exception(String.Format("The column {0} (type {1}) does not have a type converter.", first_line[i], column_types[i]));
-                    }
-                }
             }
 
             // Alright, let's retrieve CSV lines and parse each one!
@@ -280,12 +270,7 @@ namespace CSVFile
                 for (int i = 0; i < Math.Min(line.Length, num_columns); i++) {
 
                     // Attempt to convert this to the specified type
-                    object value = null;
-                    if (column_convert[i] != null && column_convert[i].IsValid(line[i])) {
-                        value = column_convert[i].ConvertFromString(line[i]);
-                    } else if (!ignore_type_conversion_errors) {
-                        throw new Exception(String.Format("The value '{0}' cannot be converted to the type {1}.", line[i], column_types[i]));
-                    }
+                    object value = ChangeType(line[i], column_types[i]);
 
                     // Can we set this value to the object as a property?
                     if (prop_handlers[i] != null) {
@@ -309,7 +294,50 @@ namespace CSVFile
             // Here's your array!
             return result;
         }
+
+        private object ChangeType(string v, Type type)
+        {
+#if PORTABLE
+            if (type == typeof(Int32)) {
+                return Int32.Parse(v);
+            } else if (type == typeof(Int64)) {
+                return Int64.Parse(v);
+            } else if (type == typeof(Int16)) {
+                return Int16.Parse(v);
+            } else if (type == typeof(Byte)) {
+                return Byte.Parse(v);
+            } else if (type == typeof(Decimal)) {
+                return Decimal.Parse(v);
+            } else if (type == typeof(Double)) {
+                return Double.Parse(v);
+            } else if (type == typeof(Single)) {
+                return Single.Parse(v);
+            } else if (type == typeof(DateTime)) {
+                return DateTime.Parse(v);
+            } else if (type == typeof(Boolean)) {
+                return Boolean.Parse(v);
+            } else if (type == typeof(String)) {
+                return v;
+            } else if (type == typeof(String)) {
+                return v;
+            } else if (type == typeof(SByte)) {
+                return SByte.Parse(v);
+            } else if (type == typeof(UInt16)) {
+                return UInt16.Parse(v);
+            } else if (type == typeof(UInt32)) {
+                return UInt32.Parse(v);
+            } else if (type == typeof(UInt64)) {
+                return UInt64.Parse(v);
+            } else if (type.GetTypeInfo().IsEnum) {
+                return Enum.Parse(type, v);
+            }
+
+            // Not recognized
+            throw new Exception(String.Format("Unable to convert the type '{0}'", type));
+#else
+            return Convert.ChangeType(v, type);
 #endif
+        }
         #endregion
     }
 }
