@@ -5,10 +5,10 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 #if !PORTABLE
 using System.Data;
+using System.Text;
 #endif
 using System.Reflection;
 

@@ -5,13 +5,12 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 #if !PORTABLE
 using System.Data;
+using System.Text;
 #endif
 using System.Reflection;
-using System.ComponentModel;
 
 namespace CSVFile
 {
@@ -318,7 +317,7 @@ namespace CSVFile
                 return Boolean.Parse(v);
             } else if (type == typeof(String)) {
                 return v;
-            } else if (type == typeof(String)) {
+            } else if (type == typeof(Char)) {
                 return v;
             } else if (type == typeof(SByte)) {
                 return SByte.Parse(v);
