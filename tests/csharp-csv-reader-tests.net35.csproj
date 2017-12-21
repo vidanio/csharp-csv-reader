@@ -61,7 +61,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.XML" />
     <Reference Include="NUnit.Framework">
-        <HintPath>..\nunit\NUnit.3.6.0\lib\net40\nunit.framework.dll</HintPath>
+      <HintPath>..\nunit\NUnit.3.6.0\lib\net40\nunit.framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -81,9 +81,9 @@
     <Compile Include="WriterTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\csharp-csv-reader.net35.csproj">
+    <ProjectReference Include="..\src\csharp-csv-reader.net20.csproj">
       <Project>{642DB878-9E42-4F7D-A001-7640FC9E63A6}</Project>
-      <Name>CSVFile</Name>
+      <Name>csharp-csv-reader.net20</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
