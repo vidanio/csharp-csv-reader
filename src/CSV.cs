@@ -347,8 +347,10 @@ namespace CSVFile
         public static void WriteToStream<T>(this IEnumerable<T> list, string filename, bool save_column_names, char delim = DEFAULT_DELIMITER, char qual = DEFAULT_QUALIFIER)
 #endif
         {
-            using (StreamWriter sw = new StreamWriter(filename)) {
-                WriteToStream<T>(list, sw, save_column_names, delim, qual);
+            using (var s = new FileStream(filename, FileMode.CreateNew)) {
+                using (StreamWriter sw = new StreamWriter(s)) {
+                    WriteToStream<T>(list, sw, save_column_names, delim, qual);
+                }
             }
         }
 
@@ -392,7 +394,11 @@ namespace CSVFile
         /// <returns>An array of objects that were retrieved from the CSV file.</returns>
         public static List<T> LoadArray<T>(string filename, bool ignore_dimension_errors = true, bool ignore_bad_columns = true, bool ignore_type_conversion_errors = true, char delim = CSV.DEFAULT_DELIMITER, char qual = CSV.DEFAULT_QUALIFIER) where T : class, new()
         {
-            return LoadArray<T>(new StreamReader(filename), ignore_dimension_errors, ignore_bad_columns, ignore_type_conversion_errors, delim, qual);
+            using (var s = new FileStream(filename, FileMode.Open)) {
+                using (var sr = new StreamReader(s)) {
+                    return LoadArray<T>(sr, ignore_dimension_errors, ignore_bad_columns, ignore_type_conversion_errors, delim, qual);
+                }
+            }
         }
 #endif
         #endregion
